@@ -1,0 +1,25 @@
+using System;
+
+namespace ConsoleApplication1
+{
+    internal class Program
+    {
+        public static void Main(string[] args)
+        {
+            int n = Int32.Parse(Console.ReadLine());
+            int Fib2 = 1, Fib1 = 1, Fib0 = 1;
+            
+            
+             while (n>2)
+                {
+                    Fib2 = Fib1 + Fib0;
+                    Fib0 = Fib1;
+                    Fib1 = Fib2;
+                    n -= 1;
+                }
+                
+             Console.WriteLine(Fib2);
+            
+        }
+    }
+}
