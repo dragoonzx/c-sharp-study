@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Security.Cryptography;
 using System.Security.Permissions;
 
 namespace ConsoleApplication
@@ -16,7 +17,7 @@ namespace ConsoleApplication
             int a = int.Parse(tmp[0]);
             int b = int.Parse(tmp[1]);
             int c = int.Parse(tmp[2]);
-            
+            int p1, p2, p3;
             
             
             int k = 0, result = 0;
@@ -26,24 +27,14 @@ namespace ConsoleApplication
             {
                 Console.WriteLine("IMPOSSIBLE");
             }
-            else if (a > k)
+            else
             {
-                result += a - k;
+                p1 = a - k;
+                p2 = b - k;
+                p3 = c - k;
+                result = (Math.Abs(p1) + Math.Abs(p2) + Math.Abs(p3)) / 2;
                 Console.WriteLine(result);
-            }
-
-            else if (b > k)
-             {
-                 result += b - k;
-                 Console.WriteLine(result);
-             }
-            else if (c > k)
-             {
-                  result += c - k;
-                  Console.WriteLine(result);
-             }      
-                
-            
             }
         }
     }
+}
