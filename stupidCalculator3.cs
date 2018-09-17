@@ -23,6 +23,7 @@ namespace ConsoleApplication
             if (op1 == "/" & num2 == 0 | op2== "/" & num3 == 0)
             {
                 Console.WriteLine("На ноль делить нельзя!");
+                return;
             }
             
             if (op1 == "*")
