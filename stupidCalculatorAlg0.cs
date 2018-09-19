@@ -33,13 +33,20 @@ namespace ConsoleApplication
 
             char[] tokenList = expression.ToCharArray();
             char[] nums = new char[10] {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+            int q = 0, j = 0;
             
             // Переводим в постфиксную форму
             foreach (char token in tokenList)
             {
-                if (System.Array.IndexOf(nums, token) > 0 ) //Проверка является ли токен чар-числом
+                if (System.Array.IndexOf(nums, token) >= 0 ) //Проверка является ли токен чар-числом
                 {
-                    postfixList.Add(token);
+                    postfixList.Add(token);  
+                    q += 1;
+                    j += 1;
+                    if (j == tokenList.Length - 1 & q >= 2)
+                    {
+                        postfixList.Add(' ');
+                    }
                 }
 
                 else if (token == '(')
@@ -58,16 +65,23 @@ namespace ConsoleApplication
                 }
                 else
                 {
+                    if (q >= 2)
+                    {
+                        postfixList.Add(' ');
+                        q = 0;
+                    }
+
+                    q = 0;
                     while (opStack.Any())
                     {
                         if (priority[opStack.Peek()] >= priority[token]) // ошибка peek() on empty stack
                         {
                             postfixList.Add(opStack.Pop());
                         }
-
                         break;
                     }
                     opStack.Push(token);
+                    
                  }
             }
 
@@ -77,7 +91,7 @@ namespace ConsoleApplication
             }
             string postfix = new string(postfixList.ToArray());
             
-            // Console.WriteLine(postfix);
+            Console.WriteLine(postfix);
             
             // Вычисление выражения
             
@@ -86,13 +100,26 @@ namespace ConsoleApplication
 
             foreach (char token in tokenListFin)
             {
-                if (System.Array.IndexOf(nums, token) > 0)
+                if (System.Array.IndexOf(nums, token) >= 0)
                 {
                     operandStack.Push((int)Char.GetNumericValue(token));
                 }
 
-                int val1 = 0, val2 = 0;
-                
+                int val1 = 0, val2 = 0, x = 0;
+                string temp = "";
+
+                if (token == ' ')
+                {
+                    x += 1;
+                    for (int i = operandStack.Count + 1; i > x; i--)
+                    {
+                        temp += operandStack.Pop().ToString();
+                    }
+
+                    string outTemp = new string(temp.ToCharArray().Reverse().ToArray());
+                    
+                    operandStack.Push(Int32.Parse(outTemp));
+                }
 
                 switch (token)
                 {
@@ -104,7 +131,13 @@ namespace ConsoleApplication
                     case '/':
                         val1 = operandStack.Pop();
                         val2 = operandStack.Pop();
-                        operandStack.Push(val2/val1);
+                        if (val1 != 0)
+                            operandStack.Push(val2/val1);
+                        else
+                        {
+                            Console.WriteLine("Делить на ноль нельзя!");
+                            return;
+                        }
                         break;
                     case '+':
                         val1 = operandStack.Pop();
