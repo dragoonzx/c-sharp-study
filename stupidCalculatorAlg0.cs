@@ -7,6 +7,7 @@ using System.Security.Permissions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Collections;
+using System.Data;
 using System.Text.RegularExpressions;
 
 namespace ConsoleApplication
@@ -43,7 +44,7 @@ namespace ConsoleApplication
                     postfixList.Add(token);  
                     q += 1;
                     j += 1;
-                    if (j == tokenList.Length - 1 & q >= 2)
+                    if (j == tokenList.Length - 1)
                     {
                         postfixList.Add(' ');
                     }
@@ -65,7 +66,7 @@ namespace ConsoleApplication
                 }
                 else
                 {
-                    if (q >= 2)
+                    if (q >= 1)
                     {
                         postfixList.Add(' ');
                         q = 0;
@@ -97,21 +98,24 @@ namespace ConsoleApplication
             
             Stack<int> operandStack = new Stack<int>();
             List<char> tokenListFin = postfix.ToList();
-
+            int val1 = 0, val2 = 0, x = 0;
+            string temp = "";
+            
             foreach (char token in tokenListFin)
             {
+                
                 if (System.Array.IndexOf(nums, token) >= 0)
                 {
                     operandStack.Push((int)Char.GetNumericValue(token));
+                    Console.WriteLine(operandStack.Peek());
                 }
-
-                int val1 = 0, val2 = 0, x = 0;
-                string temp = "";
+                
+                
 
                 if (token == ' ')
                 {
                     x += 1;
-                    for (int i = operandStack.Count + 1; i > x; i--)
+                    for (int i = operandStack.Count + 1; i > x; i-- )
                     {
                         temp += operandStack.Pop().ToString();
                     }
@@ -119,6 +123,9 @@ namespace ConsoleApplication
                     string outTemp = new string(temp.ToCharArray().Reverse().ToArray());
                     
                     operandStack.Push(Int32.Parse(outTemp));
+                    temp = "";
+                    
+                    Console.WriteLine(operandStack.Peek());
                 }
 
                 switch (token)
@@ -127,12 +134,16 @@ namespace ConsoleApplication
                         val1 = operandStack.Pop();
                         val2 = operandStack.Pop();
                         operandStack.Push(val1*val2);
+                        
                         break;
                     case '/':
                         val1 = operandStack.Pop();
                         val2 = operandStack.Pop();
                         if (val1 != 0)
-                            operandStack.Push(val2/val1);
+                        {
+                            operandStack.Push(val2 / val1);
+                           
+                        }
                         else
                         {
                             Console.WriteLine("Делить на ноль нельзя!");
@@ -143,11 +154,13 @@ namespace ConsoleApplication
                         val1 = operandStack.Pop();
                         val2 = operandStack.Pop();
                         operandStack.Push(val1+val2);
+                        
                         break;
                     case '-':
                         val1 = operandStack.Pop();
                         val2 = operandStack.Pop();
                         operandStack.Push(val2-val1);
+                        
                         break;
                 }
             }
