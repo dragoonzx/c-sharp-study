@@ -39,12 +39,13 @@ namespace ConsoleApplication
             // Переводим в постфиксную форму
             foreach (char token in tokenList)
             {
+                j += 1;
                 if (System.Array.IndexOf(nums, token) >= 0 ) //Проверка является ли токен чар-числом
                 {
                     postfixList.Add(token);  
                     q += 1;
-                    j += 1;
-                    if (j == tokenList.Length - 1)
+                    
+                    if (j == tokenList.Length)
                     {
                         postfixList.Add(' ');
                     }
@@ -134,7 +135,7 @@ namespace ConsoleApplication
                         val1 = operandStack.Pop();
                         val2 = operandStack.Pop();
                         operandStack.Push(val1*val2);
-                        
+                        x = 1;
                         break;
                     case '/':
                         val1 = operandStack.Pop();
@@ -142,7 +143,7 @@ namespace ConsoleApplication
                         if (val1 != 0)
                         {
                             operandStack.Push(val2 / val1);
-                           
+                            x = 1;
                         }
                         else
                         {
@@ -154,13 +155,13 @@ namespace ConsoleApplication
                         val1 = operandStack.Pop();
                         val2 = operandStack.Pop();
                         operandStack.Push(val1+val2);
-                        
+                        x = 1;
                         break;
                     case '-':
                         val1 = operandStack.Pop();
                         val2 = operandStack.Pop();
                         operandStack.Push(val2-val1);
-                        
+                        x = 1;
                         break;
                 }
             }
