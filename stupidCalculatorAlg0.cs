@@ -108,7 +108,7 @@ namespace ConsoleApplication
                 if (System.Array.IndexOf(nums, token) >= 0)
                 {
                     operandStack.Push((int)Char.GetNumericValue(token));
-                    Console.WriteLine(operandStack.Peek());
+                    
                 }
                 
                 
@@ -120,9 +120,12 @@ namespace ConsoleApplication
                     {
                         temp += operandStack.Pop().ToString();
                     }
-
+  
                     string outTemp = new string(temp.ToCharArray().Reverse().ToArray());
-                    
+                    if (outTemp == "")
+                    {
+                        continue;
+                    }
                     operandStack.Push(Int32.Parse(outTemp));
                     temp = "";
                     
@@ -135,7 +138,7 @@ namespace ConsoleApplication
                         val1 = operandStack.Pop();
                         val2 = operandStack.Pop();
                         operandStack.Push(val1*val2);
-                        x = 1;
+                        x = operandStack.Count;
                         break;
                     case '/':
                         val1 = operandStack.Pop();
@@ -143,7 +146,7 @@ namespace ConsoleApplication
                         if (val1 != 0)
                         {
                             operandStack.Push(val2 / val1);
-                            x = 1;
+                            x = operandStack.Count;
                         }
                         else
                         {
@@ -155,13 +158,13 @@ namespace ConsoleApplication
                         val1 = operandStack.Pop();
                         val2 = operandStack.Pop();
                         operandStack.Push(val1+val2);
-                        x = 1;
+                        x = operandStack.Count;
                         break;
                     case '-':
                         val1 = operandStack.Pop();
                         val2 = operandStack.Pop();
                         operandStack.Push(val2-val1);
-                        x = 1;
+                        x = operandStack.Count;
                         break;
                 }
             }
